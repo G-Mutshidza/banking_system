@@ -1,53 +1,65 @@
 package za.co.bank.system.user_management.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import za.co.bank.system.user_management.dto.SignUpDTO;
+import za.co.bank.system.user_management.dto.UserDetailsDTO;
 import za.co.bank.system.user_management.entity.User;
+import za.co.bank.system.user_management.entity.UserDetails;
+import za.co.bank.system.user_management.repository.UserDetailsRepository;
 import za.co.bank.system.user_management.repository.UserRepository;
-import java.util.List;
+
+import java.util.Optional;
 
 @Service
-public class UserService implements ServiceInterface{
+public class UserService{
 
-    @Autowired
     private final UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserDetailsRepository userDetailsRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public User findUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
+    public User registerUser(SignUpDTO signUpDTO) {
+        if (userRepository.existsByUsername(signUpDTO.getUsername())) {
+            throw new IllegalArgumentException("Username already taken.");
+        }
+        if (userRepository.existsByEmail(signUpDTO.getEmail())) {
+            throw new IllegalArgumentException("Email already registered.");
+        }
 
-    @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    @Override
-    public User createUser(User user) {
-        String hashedPwd = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(hashedPwd);
+        User user = new User();
+        user.setUsername(signUpDTO.getUsername());
+        user.setEmail(signUpDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
 
         return userRepository.save(user);
     }
 
-    @Override
-    public User updateUser(User user) {
-        String hashedPwd = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(hashedPwd);
+    public UserDetails addUserDetails(UserDetailsDTO userDetailsDTO, Optional<User> user) {
+        UserDetails userDetails = new UserDetails();
 
-        return userRepository.save(user);
+        userDetails.setFirstName(userDetailsDTO.getFirstName());
+        userDetails.setLastName(userDetailsDTO.getLastName());
+        userDetails.setDateOfBirth(userDetailsDTO.getDateOfBirth());
+        userDetails.setAddress(userDetailsDTO.getAddress());
+        userDetails.setPhoneNumber(userDetailsDTO.getPhoneNumber());
+        userDetails.setUser(user);
+
+        return userDetailsRepository.save(userDetails);
     }
+
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+
 }
