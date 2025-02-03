@@ -1,14 +1,20 @@
 package za.co.bank.system.user_management.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import za.co.bank.system.user_management.dto.SignUpDTO;
+import za.co.bank.system.user_management.dto.UserDetailsDTO;
 import za.co.bank.system.user_management.entity.User;
+import za.co.bank.system.user_management.entity.UserDetails;
 import za.co.bank.system.user_management.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -18,30 +24,20 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public List<User> getAllUsers() {
-        return userService.findAllUsers();
+    @PostMapping("sign-up")
+    public ResponseEntity<User> signUp(@RequestBody SignUpDTO signUpDTO) {
+        User user = userService.registerUser(signUpDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable("id") Long id) {
-        return userService.findUserById(id);
+    @PostMapping("add-details/{userId}")
+    public ResponseEntity<UserDetails> addUserDetails(@PathVariable Long userId, @RequestBody UserDetailsDTO userDetailsDTO) {
+        Optional<User> user = userService.getUserById(userId);
+        UserDetails userDetails = userService.addUserDetails(userDetailsDTO, user);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDetails);
     }
 
-    @PostMapping("/")
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
-    }
 
-    @PutMapping("/update/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        user.setId(id);
-        return userService.updateUser(user);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
-    }
 
 }
