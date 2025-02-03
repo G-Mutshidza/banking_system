@@ -11,9 +11,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String username;
+
+    @Column(unique = true)
     private String password;
+
+    @Column(unique = true)
     private String email;
+
+    @OneToOne(mappedBy = "user")
+    private UserDetails userDetails;
 
     public Long getId() {
         return id;
@@ -31,6 +39,10 @@ public class User {
         return email;
     }
 
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -46,4 +58,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setUserDetails(UserDetails userDetails) { this.userDetails = userDetails; }
+
+
 }
