@@ -11,11 +11,11 @@ import java.util.Optional;
 @Service
 public class AddressService {
 
-    private final AccountRepository accountRepository;
+    private final AddressRepository addressRepository;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public AddressService(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
     }
 
     // Create a new address
