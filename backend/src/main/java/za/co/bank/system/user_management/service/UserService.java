@@ -1,5 +1,6 @@
 package za.co.bank.system.user_management.service;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,14 @@ import java.util.Optional;
 public class UserService{
 
     private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserDetailsRepository userDetailsRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserDetailsRepository userDetailsRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.userDetailsRepository = userDetailsRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User registerUser(SignUpDTO signUpDTO) {
@@ -44,7 +43,7 @@ public class UserService{
         return userRepository.save(user);
     }
 
-    public UserDetails addUserDetails(UserDetailsDTO userDetailsDTO, Optional<User> user) {
+    public UserDetails addUserDetails(UserDetailsDTO userDetailsDTO, User user) {
         UserDetails userDetails = new UserDetails();
 
         userDetails.setFirstName(userDetailsDTO.getFirstName());
@@ -57,9 +56,11 @@ public class UserService{
         return userDetailsRepository.save(userDetails);
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            return userRepository.findById(id).get();
+        }
+        return null;
     }
-
 
 }

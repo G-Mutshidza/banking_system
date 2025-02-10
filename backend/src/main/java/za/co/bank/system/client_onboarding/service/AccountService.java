@@ -10,8 +10,13 @@ import java.util.Optional;
 
 @Service
 public class AccountService {
+
+    private final AccountRepository accountRepository;
+
     @Autowired
-    private AccountRepository accountRepository;
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     // Create a new account:
     public Account createAccount(Account account) {
@@ -33,7 +38,7 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    // Delete an accoung:
+    // Delete an account:
     public void deleteAccount(Long accountId) {
         accountRepository.deleteById(accountId);
     } 

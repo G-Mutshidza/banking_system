@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("add-details/{userId}")
     public ResponseEntity<UserDetails> addUserDetails(@PathVariable Long userId, @RequestBody UserDetailsDTO userDetailsDTO) {
-        Optional<User> user = userService.getUserById(userId);
+        User user = userService.getUserById(userId);
         UserDetails userDetails = userService.addUserDetails(userDetailsDTO, user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userDetails);

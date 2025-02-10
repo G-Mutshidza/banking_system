@@ -33,7 +33,7 @@ public class UserDetails {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Optional<User> user;
+    private User user;
 
     public Long getId() {
         return id;
@@ -91,11 +91,11 @@ public class UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
-    public Optional<User> getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Optional<User> user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

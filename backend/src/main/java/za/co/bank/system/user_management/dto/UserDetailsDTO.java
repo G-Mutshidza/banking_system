@@ -1,7 +1,9 @@
 package za.co.bank.system.user_management.dto;
 
 import java.time.LocalDate;
+import lombok.Data;
 
+@Data
 public class UserDetailsDTO {
 
     private String firstName;
