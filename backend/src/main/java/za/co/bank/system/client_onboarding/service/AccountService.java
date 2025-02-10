@@ -25,7 +25,7 @@ public class AccountService {
 
     // Get Account by Id:
     public Optional<Account> getAccountById(long AccountId) {
-        return accountRepository.findById(AccountId)
+        return accountRepository.findById(AccountId);
     }
 
     // Update an existing account:
