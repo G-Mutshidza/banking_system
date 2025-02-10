@@ -1,11 +1,13 @@
 package za.co.bank.system.client_onboarding.entity;
 
+import lombok.Data;
 import jakarta.persistence.*;
 
 import java.sql.Date;
 
 @Entity
 @Table(name = "clients")
+@Data
 public class Client {
 
     @Id
@@ -13,7 +15,7 @@ public class Client {
     private Long id;
     private String firstName;
     private String lastName;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String gender;
     private String nationality;
     private String maritalStatus;
