@@ -4,45 +4,41 @@ import za.co.bank.system.client_onboarding.entity.BankingPreference;
 import za.co.bank.system.client_onboarding.repository.BankingPreferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BankingPreferenceService {
 
-    private final BankingPreferenceRepository bankingPreferenceService;
+    private final BankingPreferenceRepository bankingPreferenceRepository;
 
     @Autowired
-    public BankingPreferenceService(BankingPreferenceRepository bankingPreferenceService) {
-        this.bankingPreferenceService = bankingPreferenceService;
+    public BankingPreferenceService(BankingPreferenceRepository bankingPreferenceRepository) {
+        this.bankingPreferenceRepository = bankingPreferenceRepository;
     }
 
-    public void run(String... args) throws Exception {
-        // Create a new banking preference
-        BankingPreference preference = new BankingPreference();
-        preference.setPrefersPaperStatements(false);
-        preference.setSmsNotificationEnabled(true);
-        preference.setEmailNotificationEnabled(true);
-        preference.setPreferredLanguage("en");
+    // Create a new banking preference
+    public BankingPreference createBankingPreference(BankingPreference bankingPreference) {
+        return bankingPreferenceRepository.save(bankingPreference);
+    }
+
+    // Get all banking preferences
+    public List<BankingPreference> getAllBankingPreferences() {
+        return bankingPreferenceRepository.findAll();
+    }
+
+    // Get banking preference by ID
+    public Optional<BankingPreference> getBankingPreferenceById(Long id) {
+        return bankingPreferenceRepository.findById(id);
+    }
+
+    // Update an existing banking preference
+    public BankingPreference updateBankingPreference(BankingPreference bankingPreference) {
+        return bankingPreferenceRepository.save(bankingPreference);
+    }
+
+    // Delete a banking preference
+    public void deleteBankingPreference(Long id) {
+        bankingPreferenceRepository.deleteById(id);
     }
 }
-        // BankingPreference savedPreference = bankingPreferenceService.createBankingPreference(preference);
-        // System.out.println("Created Banking Preference with ID: " + savedPreference.getId());
-    
-    //     // Retrieve all banking preferences
-    //     List<BankingPreference> allPreferences = bankingPreferenceService.getAllBankingPreferences();
-    //     System.out.println("All Banking Preferences: " + allPreferences);
-
-    //     // Update an existing banking preference
-    //     BankingPreference updatedPreference = bankingPreferenceService.getBankingPreferenceById(savedPreference.getId())
-    //             .orElseThrow(() -> new RuntimeException("Banking Preference not found"));
-    //     updatedPreference.setPreferredLanguage("fr");
-    //     bankingPreferenceService.updateBankingPreference(updatedPreference);
-    //     System.out.println("Updated Preferred Language to: " + updatedPreference.getPreferredLanguage());
-
-    //     // Delete a banking preference
-    //     bankingPreferenceService.deleteBankingPreference(savedPreference.getId());
-    //     System.out.println("Deleted Banking Preference with ID: " + savedPreference.getId());
-    // }
-// }
