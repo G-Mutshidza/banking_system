@@ -21,4 +21,9 @@ public class IdentificationService {
     public Identification createIdentification(Identification employmentInfo) {
         return identificationRepository.save(employmentInfo);
     }
+
+    // Get all employment info records
+    public List<Identification> getAllIdentification() {
+        return identificationRepository.findAll();
+    }
 }
