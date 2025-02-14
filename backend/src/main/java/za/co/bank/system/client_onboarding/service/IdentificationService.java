@@ -32,4 +32,11 @@ public class IdentificationService {
     public Optional<Identification> getIdentificationById(Long id) {
         return identificationRepository.findById(id);
     }
+
+    
+    // Update an existing employment info record
+    public Identification updateIdentification(Identification identification) {
+        return identificationRepository.save(identification);
+    }
+
 }
