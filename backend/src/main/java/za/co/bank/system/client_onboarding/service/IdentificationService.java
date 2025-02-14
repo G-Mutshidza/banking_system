@@ -1,15 +1,24 @@
 package za.co.bank.system.client_onboarding.service;
 
-import za.co.bank.system.client_onboarding.entity.EmploymentInfo;
+import za.co.bank.system.client_onboarding.entity.Identification;
 import za.co.bank.system.client_onboarding.repository.IdentificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Component
-public class IdentificationService implements CommandLineRunner {
+@Service
+public class IdentificationService {
+
+    private final IdentificationRepository identificationRepository;
 
     @Autowired
-    private IdentificationService identificationService;
+    public IdentificationService(IdentificationRepository identificationRepository) {
+        this.identificationRepository = identificationRepository;
+    }
+
+    // Create a new employment info record
+    public Identification createIdentification(Identification employmentInfo) {
+        return identificationRepository.save(employmentInfo);
+    }
 }
