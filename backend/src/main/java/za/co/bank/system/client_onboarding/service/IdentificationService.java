@@ -39,4 +39,8 @@ public class IdentificationService {
         return identificationRepository.save(identification);
     }
 
+    // Delete an employment info record
+    public void deleteEmploymentInfo(Long id) {
+        identificationRepository.deleteById(id);
+    }
 }
