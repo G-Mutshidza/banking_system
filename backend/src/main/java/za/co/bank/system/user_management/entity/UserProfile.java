@@ -1,38 +1,42 @@
 package za.co.bank.system.user_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "user_details")
+@Document(collection = "user_details")
 @Data
 public class UserProfile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Field("first_name")
     private String firstName;
 
-    @Column(nullable = false)
+    @Field("last_name")
     private String lastName;
 
-    @Column(nullable = false)
+    @Field("first_name")
     private LocalDate dateOfBirth;
 
-    @Column(nullable = false)
+    @Field("first_name")
     private String idNumber;
 
-    @Column(nullable = false)
+    @Field("first_name")
     private String address;
 
-    @Column(nullable = false)
+    @Field("first_name")
     private String phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Field("user_id")
+    private String userId;
 
 }
