@@ -7,17 +7,21 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {
+@ComponentScan(basePackages = {
+		"za.co.bank.system.user_management",
+		"za.co.bank.system.configurations",
+		"za.co.bank.system.security",
+		"za.co.bank.system.controller",
+		"za.co.bank.system.service"
+})
+@EnableMongoRepositories(basePackages = {
 		"za.co.bank.system.user_management.repository"
 })
 @EntityScan(basePackages = {
 		"za.co.bank.system.user_management.entity"
-})
-@ComponentScan(basePackages = {
-		"za.co.bank.system.user_management",
-		"za.co.bank.system.configurations"
 })
 public class DemoApplication {
 

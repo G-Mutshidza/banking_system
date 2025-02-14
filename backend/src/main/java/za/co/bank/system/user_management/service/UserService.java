@@ -1,17 +1,16 @@
 package za.co.bank.system.user_management.service;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import za.co.bank.system.user_management.dto.SignUpDTO;
 import za.co.bank.system.user_management.dto.UserDetailsDTO;
 import za.co.bank.system.user_management.entity.User;
-import za.co.bank.system.user_management.entity.UserDetails;
+import za.co.bank.system.user_management.entity.UserProfile;
 import za.co.bank.system.user_management.repository.UserDetailsRepository;
 import za.co.bank.system.user_management.repository.UserRepository;
 
-import java.util.Optional;
 
 @Service
 public class UserService{
@@ -21,7 +20,7 @@ public class UserService{
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserDetailsRepository userDetailsRepository, PasswordEncoder passwordEncoder) {
+    public UserService(@Qualifier("mongoUserRepository") UserRepository userRepository, @Qualifier("mongoUserRepository") UserDetailsRepository userDetailsRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userDetailsRepository = userDetailsRepository;
         this.passwordEncoder = passwordEncoder;
@@ -43,24 +42,22 @@ public class UserService{
         return userRepository.save(user);
     }
 
-    public UserDetails addUserDetails(UserDetailsDTO userDetailsDTO, User user) {
-        UserDetails userDetails = new UserDetails();
+    public UserProfile addUserDetails(UserDetailsDTO userDetailsDTO, User user) {
+        UserProfile userProfile = new UserProfile();
 
-        userDetails.setFirstName(userDetailsDTO.getFirstName());
-        userDetails.setLastName(userDetailsDTO.getLastName());
-        userDetails.setDateOfBirth(userDetailsDTO.getDateOfBirth());
-        userDetails.setAddress(userDetailsDTO.getAddress());
-        userDetails.setPhoneNumber(userDetailsDTO.getPhoneNumber());
-        userDetails.setUser(user);
+        userProfile.setFirstName(userDetailsDTO.getFirstName());
+        userProfile.setLastName(userDetailsDTO.getLastName());
+        userProfile.setDateOfBirth(userDetailsDTO.getDateOfBirth());
+        userProfile.setIdNumber(userDetailsDTO.getIdNumber());
+        userProfile.setAddress(userDetailsDTO.getAddress());
+        userProfile.setPhoneNumber(userDetailsDTO.getPhoneNumber());
+        userProfile.setUserId(user.getId());
 
-        return userDetailsRepository.save(userDetails);
+        return userDetailsRepository.save(userProfile);
     }
 
-    public User getUserById(Long id) {
-        if (userRepository.findById(id).isPresent()) {
-            return userRepository.findById(id).get();
-        }
-        return null;
+    public User getUserById(String id) {
+        return userRepository.findById(id).orElse(null);
     }
 
 }
