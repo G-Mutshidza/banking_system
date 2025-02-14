@@ -26,4 +26,10 @@ public class IdentificationService {
     public List<Identification> getAllIdentification() {
         return identificationRepository.findAll();
     }
+
+    
+    // Get employment info by ID
+    public Optional<Identification> getIdentificationById(Long id) {
+        return identificationRepository.findById(id);
+    }
 }
