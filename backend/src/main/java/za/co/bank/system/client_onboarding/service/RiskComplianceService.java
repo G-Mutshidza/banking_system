@@ -16,4 +16,29 @@ public class RiskComplianceService {
     public RiskComplianceService(RiskComplianceRepository riskComplianceRepository) {
         this.riskComplianceRepository = riskComplianceRepository;
     }
+
+    // Create a new risk compliance record
+    public RiskCompliance createRiskCompliance(RiskCompliance riskCompliance) {
+        return riskComplianceRepository.save(riskCompliance);
+    }
+
+    // Get all risk compliance records
+    public List<RiskCompliance> getAllRiskCompliance() {
+        return riskComplianceRepository.findAll();
+    }
+
+    // Get risk compliance by ID
+    public Optional<RiskCompliance> getRiskComplianceById(Long id) {
+        return riskComplianceRepository.findById(id);
+    }
+
+    // Update an existing risk compliance record
+    public RiskCompliance updateRiskCompliance(RiskCompliance riskCompliance) {
+        return riskComplianceRepository.save(riskCompliance);
+    }
+
+    // Delete a risk compliance record
+    public void deleteRiskCompliance(Long id) {
+        riskComplianceRepository.deleteById(id);
+    }
 }
