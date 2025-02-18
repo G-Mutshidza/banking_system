@@ -40,6 +40,9 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                         .contentSecurityPolicy(csp -> csp.policyDirectives("frame-ancestors 'self' http://localhost:8080")))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/client/**").hasRole("CLIENT")
+                        .requestMatchers("/banker/**").hasRole("BANKER")
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().permitAll())
                 .formLogin(config -> config.loginPage("/login")
