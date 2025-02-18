@@ -1,7 +1,6 @@
 package za.co.bank.system.user_management.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +17,7 @@ public class LoginService {
     private final JwtUtilities jwtUtils;
 
     @Autowired
-    public LoginService(@Qualifier("mongoUserRepository") UserRepository userRepo, PasswordEncoder pwdEncoder, AuthenticationManager authManager, JwtUtilities jwtUtils) {
+    public LoginService(UserRepository userRepo, PasswordEncoder pwdEncoder, AuthenticationManager authManager, JwtUtilities jwtUtils) {
         this.userRepository = userRepo;
         this.pwdEncoder = pwdEncoder;
         this.authManager = authManager;
