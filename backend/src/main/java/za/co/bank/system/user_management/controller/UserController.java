@@ -14,6 +14,8 @@ import za.co.bank.system.user_management.entity.User;
 import za.co.bank.system.user_management.entity.UserProfile;
 import za.co.bank.system.user_management.service.UserService;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -31,8 +33,8 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<User> signUp(@RequestBody SignUpDTO signUpDTO) {
-        User user = userService.registerUser(signUpDTO);
+    public ResponseEntity<User> signUp(@RequestBody SignUpDTO signUpDTO, Set<String> roleNames) {
+        User user = userService.registerUser(signUpDTO, roleNames);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
@@ -42,7 +44,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<?> addUserDetails(@PathVariable String userId, @RequestBody UserDetailsDTO userDetailsDTO) {
+    public ResponseEntity<?> addUserDetails(@PathVariable Long userId, @RequestBody UserDetailsDTO userDetailsDTO) {
         try {
             User user = userService.getUserById(userId);
             UserProfile userProfile = userService.addUserDetails(userDetailsDTO, user);
@@ -63,12 +65,10 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
-
-
 
 }

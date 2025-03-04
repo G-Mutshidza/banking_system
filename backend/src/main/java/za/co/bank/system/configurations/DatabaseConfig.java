@@ -14,7 +14,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 
-@EnableJpaRepositories
+//@EnableJpaRepositories
 public class DatabaseConfig {
 
     @Bean
